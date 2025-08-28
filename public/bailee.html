@@ -8,5 +8,17 @@
 <body>
     <h3>Bailee page</h3>
     <a href="/">home</a>
+
+<script>
+        fetch('/api/bailee')
+          .then(response => response.json())
+          .then(data => {
+            document.body.innerHTML += `<p>API says: ${data.myVar}</p>`;
+          console.log(data);
+        })
+          .catch(err => {
+            document.body.innerHTML += `<p>Error fetching API</p>`;
+          });
+</script>
 </body>
 </html>

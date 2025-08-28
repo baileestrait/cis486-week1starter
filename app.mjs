@@ -11,7 +11,6 @@ const app = express()
 const PORT = process.env.PORT || 3000;
 
 
-//const path = require('path');
 app.use(express.static(join(__dirname, 'public')));
 
 
@@ -20,9 +19,16 @@ app.get('/', (req, res) => {
 })
 
 //endpoints...middlewares...apis?
-// send an html file
+
 app.get('/bailee', (req, res) => {
   res.sendFile(join(__dirname, 'public', 'bailee.html'))
+})
+
+//send data from server to client
+app.get('/api/bailee', (req, res) => {
+  // res.send('barry. <a href="/">home</a>')
+  const myVar = 'Hello from server!';
+  res.json({ myVar });
 })
 
 
