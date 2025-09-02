@@ -15,13 +15,17 @@ app.use(express.static(join(__dirname, 'public')));
 
 
 app.get('/', (req, res) => {
-  res.send('Hello Express from Render. <a href="/bailee">Bailee</a>')
+  res.send('Hello Express from Render. <a href="/bailee">Bailee</a> <a href="/info">Info</a>')
 })
 
 //endpoints...middlewares...apis?
 
 app.get('/bailee', (req, res) => {
   res.sendFile(join(__dirname, 'public', 'bailee.html'))
+})
+
+app.get('/info', (req, res) => {
+  res.sendFile(join(__dirname, 'public', 'info.html'))
 })
 
 //send data from server to client

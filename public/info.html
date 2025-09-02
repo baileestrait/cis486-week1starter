@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Info Form</title>
+    <h3>Input Your Info!</h3>
+    <a href="/">Home</a>
+
+</head>
+<body>
+    <div>
+        <h3>Query Parameter</h3>
+        <input id="queryName" type="text" placeholder="Enter name">
+        <button onclick="sendQuery()">Send Query</button>
+        <div id="queryResult"></div>
+      </div>
+      
+      <div>
+        <h3>URL Parameter</h3>
+        <input id="urlId" type="text" placeholder="Enter id">
+        <button onclick="sendUrl()">Send URL Param</button>
+        <div id="urlResult"></div>
+      </div>
+      
+      
+      <div>
+        <h3>POST Body</h3>
+        <input id="bodyName" type="text" placeholder="Enter name">
+        <button onclick="sendBody()">Send POST Body</button>
+        <div id="bodyResult"></div>
+      </div>
+      <script>
+        function sendUrl() {
+  const id = document.getElementById('urlId').value;
+  fetch(`/api/url/${encodeURIComponent(id)}`)
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('urlResult').textContent = data.message;
+    });
+}
+
+function sendBody() {
+const name = document.getElementById('bodyName').value;
+  fetch('/api/body', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name })
+  })
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('bodyResult').textContent = data.message;
+    });
+}
+      </script>
+</body>
+</html>

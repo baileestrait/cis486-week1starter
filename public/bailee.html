@@ -6,9 +6,10 @@
     <title>Bailee</title>
 </head>
 <body>
-    <h3>Bailee page</h3>
-    <a href="/">home</a>
+    <h3>Bailee Page</h3>
+    <a href="/">Home</a>
 
+    
 <script>
         fetch('/api/bailee')
           .then(response => response.json())
@@ -19,6 +20,14 @@
           .catch(err => {
             document.body.innerHTML += `<p>Error fetching API</p>`;
           });
+          function sendQuery() {
+  const name = document.getElementById('queryName').value;
+  fetch(`/api/query?name=${encodeURIComponent(name)}`)
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('queryResult').textContent = data.message;
+    });
+}
 </script>
 </body>
 </html>
