@@ -37,13 +37,24 @@ async function run() {
     await client.connect();
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
     await client.close();
   }
 }
 run().catch(console.dir);
+
+let db;
+async function connectDB() {
+  try {
+    await client.connect(); {
+      db = client.db("school"); //database name
+      console.log("Connected to MongoDB!"); }
+    } catch (error) {
+      console.error("Failed to connect to MongoDB:", error);
+    }
+  }
+connectDB();
 
 
 app.get('/', (req, res) => {
@@ -91,7 +102,7 @@ app.post('/api/body', (req, res) => {
 app.post('/api/students/form', async (req, res) => {
   try {
     const { name, age, grade } = req.body;
-    
+
     // Simple validation
     if (!name || !age || !grade) {
       console.log('❌ Form validation failed: Missing required fields');
@@ -100,7 +111,7 @@ app.post('/api/students/form', async (req, res) => {
 
     const student = { name, age: parseInt(age), grade };
     const result = await db.collection('students').insertOne(student);
-    
+
     console.log(`✅ Student added: ${name} (ID: ${result.insertedId})`);
     res.redirect('/traditional-forms.html?success=student-added');
   } catch (error) {
@@ -108,6 +119,8 @@ app.post('/api/students/form', async (req, res) => {
     res.redirect('/traditional-forms.html?error=database-error');
   }
 });
+
+
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`)
