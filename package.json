@@ -19,7 +19,9 @@
   },
   "homepage": "https://github.com/baileestrait/cis486-week1starter#readme",
   "dependencies": {
+    "dotenv": "^17.2.2",
     "express": "^5.1.0",
+    "modules": "^0.4.0",
     "mongodb": "^6.19.0",
     "nodemon": "^3.1.10"
   }
