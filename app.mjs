@@ -18,6 +18,7 @@ console.log(uri);
 
 app.use(express.json());
 app.use(express.static(join(__dirname, 'public')));
+app.use(express.urlencoded({ extended: true })); // Parse form data
 
 
 
@@ -46,7 +47,7 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-  res.send('Hello Express from Render. <a href="/bailee">Bailee</a>')
+  res.send('Hello Express from Render. <a href="/bailee">Bailee</a> <a href="traditional-forms">Traditional Forms</a>')
 })
 
 //endpoints...middlewares...apis?
@@ -85,6 +86,27 @@ app.post('/api/body', (req, res) => {
   const name = req.body.name;
   res.json({ "message": `Hi, ${name}. How are you?` });
 
+});
+
+app.post('/api/students/form', async (req, res) => {
+  try {
+    const { name, age, grade } = req.body;
+    
+    // Simple validation
+    if (!name || !age || !grade) {
+      console.log('❌ Form validation failed: Missing required fields');
+      return res.redirect('/traditional-forms.html?error=missing-fields');
+    }
+
+    const student = { name, age: parseInt(age), grade };
+    const result = await db.collection('students').insertOne(student);
+    
+    console.log(`✅ Student added: ${name} (ID: ${result.insertedId})`);
+    res.redirect('/traditional-forms.html?success=student-added');
+  } catch (error) {
+    console.error('❌ Error adding student:', error.message);
+    res.redirect('/traditional-forms.html?error=database-error');
+  }
 });
 
 app.listen(PORT, () => {
